@@ -1,0 +1,78 @@
+#!/usr/bin/env node
+
+const chalk = require('chalk');
+const carryCloud = require('../lib');
+const pkg = require('../package.json');
+const argv = require('minimist')(process.argv.slice(2));
+const path = require("path");
+
+const files = argv._[0];
+const log = console.log;
+if (!files) {
+  log(chalk.red('you are not input file in Terminal!'));
+  log(chalk.yellow('Usage: ship-cdn [files] [--base base] [--env env] [--name name] [--version version] [--force]'))
+} else {
+  let name = argv.name;
+  let version = argv.version;
+  let base = argv.base;
+  let key = argv.key;
+  let url = argv.url || `http://192.168.0.101:7002/file/cdn`;
+  let env = argv.env;
+  let force = argv.force
+  try {
+    const package = require(path.join(process.cwd(), 'package.json'));
+    // log(package);
+    if (!name) {
+      name = package.name;
+    }
+
+    if (!version) {
+      version = package.version;
+    }
+  } catch(e) {};
+
+  if (!name && !version) {
+    log(chalk.red('    name & version is must be required!'))
+    process.exit();
+  }
+
+  let options = {
+    name,
+    version,
+    base,
+    key,
+    url,
+    env,
+    force,
+    itemUploadBefore: (file) => {
+      log(chalk.green(`[satrt]: ${file}`))
+    },
+    itemCallback: (err, file) => {
+      if (err) {
+        log(chalk.red(`[error]: ${err.fail[0].message}@${err.fail[0].file}`))
+      } else {
+        log(chalk.greenBright(`[success]: ${file}`))
+      }
+    },
+    itemRetryCallback: (times, errList) => {
+      log(chalk.yellow(`⏰  this is ${times} times to retry upload`));
+      log(chalk.yellow(`The error file will be re-uploaded after 3 seconds`))
+    }
+  };
+
+  carryCloud(options, files, (err, res) => {
+
+    const message = `[complete] carry ${res.total} file(s), success ${res.success} file(s).`;
+    if ((res.total === res.success) && res.total > 0) {
+      log(chalk.green(message))
+    } else {
+      log(chalk.red(message))
+      res.errList.forEach((item) => {
+        log(chalk.red(`[errorsss] ${item}`));
+      })
+    }
+  })
+}
+
+
+
