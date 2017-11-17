@@ -25,4 +25,3 @@ Thumbs.db
 *.pyo
 dist
 *.log
-data/

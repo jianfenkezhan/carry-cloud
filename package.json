@@ -1,8 +1,11 @@
 {
   "name": "carry-cloud",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "a tool for upload anything to cdn of other server in nodejs app",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "bin": {
+    "carry-cloud": "bin/carry-cloud"
+  },
   "scripts": {
     "test": "npm run eslint",
     "start": "lib/index.js"
