@@ -34,7 +34,10 @@ $ npm run deploy
 | force  | overwrite | 'false' (@false : not overwrite, @true: force overwrite except `production`), |
 | itemUploadBefore | callback upload before | @function: (err, res) => {}|
 |itemCallback| callback upload finish when fileItem| @function: (err, res) => {}| 
+| url | upload API | `http://127.0.0.1:7002/file/cdn` *method is must POST*|
 
+
+Can get more API into `bin/carry-cloud `
 
 ## Example
 

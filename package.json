@@ -1,6 +1,6 @@
 {
   "name": "carry-cloud",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "a tool for upload anything to cdn of other server in nodejs app",
   "main": "lib/index.js",
   "bin": {
