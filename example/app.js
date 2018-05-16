@@ -17,18 +17,17 @@ app.use(require('express-combojs')())
 require('./routers')(app);
 
 // pipeline
-app
-  app.use(ecstatic({ root: config.path, showDir: true, autoIndex: false, cache: 'no-cache' }))
-  //cookie
-  .use(cookieParser())
- // .use(bodyParser.urlencoded({
-   // extended: false
-  // }))
-  .use(function(err, req, res, next) {
-    res.json(err);
-    console.error('[%s][%s] Express handle exception: [%s]', new Date(), process.pid, err);
-    console.error(err)
-  });
+app.use(ecstatic({ root: config.path, showDir: true, autoIndex: false, cache: 'no-cache' }))
+//cookie
+.use(cookieParser())
+// .use(bodyParser.urlencoded({
+  // extended: false
+// }))
+.use(function(err, req, res, next) {
+  res.json(err);
+  console.error('[%s][%s] Express handle exception: [%s]', new Date(), process.pid, err);
+  console.error(err)
+});
 
 
 
